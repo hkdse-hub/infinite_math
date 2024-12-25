@@ -3,17 +3,6 @@ $("#next-btn").click(e => {
     newQuestion(currentTopic)
 })
 
-
-const getRandomInt = (min, max, canBeZero) => {
-    const minCeiled = Math.ceil(min)
-    const maxFloored = Math.floor(max)
-    let res = 0
-    do {
-        res = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
-    } while (!canBeZero && res == 0)
-    return res
-}
-
 const updateStreak = (topicNo, curStreak) => {
     const topic = topics[topicNo]
     let hStreak = localStorage.getItem(topic)
@@ -69,7 +58,18 @@ const newQuestion = topicNo => {
 
 /* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Individual functions vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
 
-/* Util function */
+/* Util functions */
+
+const getRandomInt = (min, max, canBeZero) => {
+    const minCeiled = Math.ceil(min)
+    const maxFloored = Math.floor(max)
+    let res = 0
+    do {
+        res = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
+    } while (!canBeZero && res == 0)
+    return res
+}
+
 const generateEquationString = (coeffs, terms) => {
     if (coeffs.length !== terms.length + 1) {
         return null
@@ -97,20 +97,51 @@ const generateEquationString = (coeffs, terms) => {
 /* Simultaneous equations*/
 
 const generateSimultaneous = () => {
+    let a = getRandomInt(-9, 10, false)
+    let b = getRandomInt(-9, 10, false)
+    let c = getRandomInt(-9, 10, false)
+    let d = null
+    do {
+        d = getRandomInt(-9, 10, false)
+    } while (a * d == b * c)
+
+    let x = getRandomInt(-15, 16, false)
+    let y = getRandomInt(-15, 16, false)
+    let e = a * x + b * y
+    let f = c * x + d * y
+
+    return {
+        "a": a,
+        "b": b,
+        "c": c,
+        "d": d,
+        "x": x,
+        "y": y,
+        "e": e,
+        "f": f
+    }
 
 }
 
 const displaySimultaneous = params => {
-
+    let coeffs1 = [params.a, params.b, 0]
+    let coeffs2 = [params.c, params.d, 0]
+    let values = ["x", "y"]
+    let eq1 = generateEquationString(coeffs1, values)
+    let eq2 = generateEquationString(coeffs2, values)
+    $("#question").html(
+        `<span>${eq1} = ${params.e}</span><span>${eq2} = ${params.f}</span>`
+    )
+    $("#answer").html(
+        `x = <input type='number' placeholder='Enter value of x'> &nbsp&nbsp&nbsp.y = <input type='number' placeholder='Enter value of y'>`
+    )
 }
 
 const resultSimultaneous = () => {
 
 }
 
-const verifySimultaneous = (params, answer) => {
-
-}
+const validateSimultaneous = (params, answer) => params.x == answer.x && params.y == answer.y
 
 
 /* Equations of lines */
@@ -127,7 +158,7 @@ const resultEquationOfLine = () => {
 
 }
 
-const verifyEquationOfLine = (params, answer) => {
+const validateEquationOfLine = (params, answer) => {
 
 }
 
@@ -189,17 +220,17 @@ const resultSumsAndProductsOfRoots = () => {
 
 }
 
-const verifySumsAndProductsOfRoots = (params, result) => {
+const validateSumsAndProductsOfRoots = (params, result) => {
 
 }
 
 
 /* Global variables */
 const topics = ["Simultaneous Equations", "Equations of lines", "Quadratics", "Sums and products of roots"]
-const generateFuncs = [null, null, generateQuadratic, null]
-const displayFuncs = [null, null, displayQuadratic, null]
-const resultFuncs = [null, null, resultQuadratic, null]
-const validateFuncs = [null, null, validateQuadratic, null]
+const generateFuncs = [generateSimultaneous, null, generateQuadratic, null]
+const displayFuncs  = [displaySimultaneous, null, displayQuadratic, null]
+const resultFuncs   = [resultSimultaneous, null, resultQuadratic, null]
+const validateFuncs = [validateSimultaneous, null, validateQuadratic, null]
 
 let currentTopic = 2
 let currentStreak = 0

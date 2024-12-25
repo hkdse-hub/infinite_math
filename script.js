@@ -152,20 +152,41 @@ const validateSimultaneous = (params, answer) => params.x == answer.x && params.
 /* Equations of lines */
 
 const generateEquationOfLine = () => {
-
+    let a = getRandomInt(-15, 16, false)
+    let b = getRandomInt(-15, 16, false)
+    let x1 = getRandomInt(-4, 5)
+    let y1 = getRandomInt(-4, 5)
+    let c = a * x1 + b * y1
+    
+    let x2, y2
+    do {
+        x2 = getRandomInt(-4, 4, true);
+        if (b !== 0 && Number.isInteger((c - a * x2) / b)) {
+            y2 = (c - a * x2) / b;
+        }
+    } while (!Number.isInteger((c - a * x2) / b));
+    
+    return {
+        "a": a,
+        "b": b,
+        "c": c,
+        "x1": x1,
+        "y1": y1,
+        "x2": x2,
+        "y2": y2,
+    }
 }
 
 const displayEquationOfLine = params => {
-    
+    let question = `Find the equation of the line connecting (${params.x1}, ${params.y1}) and (${params.x2}, ${params.y2}) in the form ax + by = c`
+    $("#question").html(question)
 }
 
 const resultEquationOfLine = () => {
 
 }
 
-const validateEquationOfLine = (params, answer) => {
-
-}
+const validateEquationOfLine = (params, answer) => params.m == answer.m && params.c == answer.c
 
 
 /* Quadratics */
@@ -232,12 +253,12 @@ const validateSumsAndProductsOfRoots = (params, result) => {
 
 /* Global variables */
 const topics = ["Simultaneous Equations", "Equations of lines", "Quadratics", "Sums and products of roots"]
-const generateFuncs = [generateSimultaneous, null, generateQuadratic, null]
-const displayFuncs  = [displaySimultaneous, null, displayQuadratic, null]
-const resultFuncs   = [resultSimultaneous, null, resultQuadratic, null]
-const validateFuncs = [validateSimultaneous, null, validateQuadratic, null]
+const generateFuncs = [generateSimultaneous, generateEquationOfLine, generateQuadratic, null]
+const displayFuncs  = [displaySimultaneous, displayEquationOfLine, displayQuadratic, null]
+const resultFuncs   = [resultSimultaneous, resultEquationOfLine, resultQuadratic, null]
+const validateFuncs = [validateSimultaneous, validateEquationOfLine, validateQuadratic, null]
 
-let currentTopic = 2
+let currentTopic = 1
 let currentStreak = 0
 let highestStreak = 0
 

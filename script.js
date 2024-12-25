@@ -131,14 +131,19 @@ const displaySimultaneous = params => {
     let eq2 = generateEquationString(coeffs2, values)
     $("#question").html(
         `<span>${eq1} = ${params.e}</span><span>${eq2} = ${params.f}</span>`
-    )
+    )   
     $("#answer").html(
-        `x = <input type='number' placeholder='Enter value of x'> &nbsp&nbsp&nbsp.y = <input type='number' placeholder='Enter value of y'>`
+        `x = <input type='number' placeholder='Enter value of x' id='simul-x'> &nbsp&nbsp&nbsp.y = <input type='number' placeholder='Enter value of y' id='simul-y'>`
     )
 }
 
 const resultSimultaneous = () => {
-
+    let x = $("#simul-x").val()
+    let y = $("#simul-y").val()
+    return {
+        "x": x,
+        "y": y
+    }
 }
 
 const validateSimultaneous = (params, answer) => params.x == answer.x && params.y == answer.y
@@ -191,13 +196,13 @@ const displayQuadratic = params => {
     let terms = ["x²", "x"]
     let eq = generateEquationString(coeffs, terms) + " = 0"
     $("#question").html(eq)
-    let ans = "x = <input id='x1' type='number' placeholder='Enter value of x'> &nbsp&nbsp&nbspor x = <input id='x2' type='number' placeholder='Enter value of x'>"
+    let ans = "x = <input id='quad-x1' type='number' placeholder='Enter value of x'> &nbsp&nbsp&nbspor x = <input id='quad-x2' type='number' placeholder='Enter value of x'>"
     $("#answer").html(ans)
 }
 
 const resultQuadratic = () => {
-    let x1 = parseInt($("#x1").val())
-    let x2 = parseInt($("#x2").val())
+    let x1 = parseInt($("#quad-x1").val())
+    let x2 = parseInt($("#quad-x2").val())
     return {
         "x1": x1,
         "x2": x2

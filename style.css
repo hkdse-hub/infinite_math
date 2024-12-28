@@ -1,0 +1,191 @@
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light gray for better contrast */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+header {
+    border-bottom: 2px solid #ddd;
+}
+
+header h1 {
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+/* Language links in header */
+.lang-link {
+    text-decoration: none;
+    font-weight: bold;
+    color: #007bff; /* Bootstrap primary color */
+    transition: color 0.3s ease-in-out;
+}
+
+.lang-link:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+/* Navbar styles for larger screens */
+#navbar {
+    min-height: 100vh; /* Full-height sidebar */
+}
+
+#navbar h2 {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.topic-link {
+    text-decoration: none;
+    font-weight: 500;
+    color: #333;
+    background-color: #f8f9fa; /* Light gray background */
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.topic-link:hover {
+    color: white;
+    background-color: #007bff; /* Highlight link on hover */
+}
+
+/* Offcanvas styling for consistency */
+.offcanvas-body ul {
+    padding: 0;
+}
+
+.offcanvas-body .topic-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.offcanvas-body .topic-link:hover {
+    color: white;
+    background-color: #007bff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    /* Adjust header to accommodate the toggle button */
+    header .col-6 {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Remove full-height sidebar for small screens */
+    #navbar {
+        min-height: auto;
+    }
+}
+
+/* Styling for main content */
+#main-content {
+    margin-top: 20px;
+}
+
+/* Question Box Styling */
+#q-box {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Info Section */
+#info {
+    border-bottom: 1px solid #ddd; /* Divider line */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#topic-name {
+    font-size: 1.5rem; /* Larger for visibility */
+    font-weight: bold;
+}
+
+#cur-streak, #high-streak {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6c757d; /* Secondary Bootstrap color */
+    text-align: right;
+}
+
+/* Question Section */
+#question {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.6rem; /* Larger math-friendly font */
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #212529; /* Neutral dark for math text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px; /* Ensures consistent height */
+    text-align: center;
+}
+
+/* Answer Section */
+#answer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between inputs */
+    flex-wrap: wrap; /* Prevents overlap */
+    font-family: 'Arial', sans-serif; /* Clean, readable font */
+    font-size: 1.2rem; /* Slightly smaller than question font */
+    margin: 15px 0; /* Spacing from question */
+}
+
+#answer input[type="number"] {
+    width: 80px; /* Fixed width for consistency */
+    padding: 5px; /* Inner spacing */
+    font-size: 1rem; /* Match the overall form size */
+    border: 1px solid #ddd; /* Light border for inputs */
+    border-radius: 4px; /* Slightly rounded corners */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle depth */
+}
+
+#answer input[type="number"]:hover {
+    border-color: #007bff; /* Bootstrap primary color */
+}
+
+/* Buttons Styling */
+#submit-btn, #next-btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Bootstrap primary */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submit-btn:hover, #next-btn:hover {
+    background-color: #0056b3; /* Darker blue for hover */
+}
+
+/* Result Box Styling */
+#result-box {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Verdana', sans-serif;
+    font-size: 1.2rem;
+}
+
+#result-msg.correct {
+    color: #28a745; /* Bootstrap success green */
+}
+
+#result-msg.incorrect {
+    color: #dc3545; /* Bootstrap danger red */
+}

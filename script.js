@@ -1,18 +1,43 @@
-$("#next-btn").click(e => {
-    e.preventDefault()
+$(document).ready(function() {
+    $('#menu-toggle').click(function() {
+      $('#navbar').toggleClass('show');
+    });
+   
+    $("#next-btn").click(e => {
+        e.preventDefault()
+        newQuestion(currentTopic)
+    })
+
+    /* Initial setting */
+    currentTopic = 0
+    currentStreak = 0     
+    highestStreak = topics[currentTopic] in localStorage ? localStorage.getItem(topics[currentTopic]) : 0
+
+    displayStreak()
+
+    /* starting function call */
     newQuestion(currentTopic)
-})
+});
+
+/* Streak */
 
 const updateStreak = (topicNo, curStreak) => {
     const topic = topics[topicNo]
     let hStreak = localStorage.getItem(topic)
     if (hStreak === null) {
-        highestStreak = currentStreak
+        highestStreak = curStreak
     } else {
         highestStreak = (curStreak > highestStreak ? curStreak : highestStreak)
     }
-    localStorage.setItem(topic, highestStreak)
+    localStorage.setItem(topic, parseInt(highestStreak))
 }
+
+const displayStreak = () => {
+    $("#cur-streak").text(`Current streak: ${currentStreak}`)
+    $("#high-streak").text(`Highest streak: ${highestStreak}`)
+}
+
+/* Questions */
 
 const displayResult = isCorrect => {
     let word = isCorrect ? "Correct" : "Incorrect"
@@ -21,13 +46,6 @@ const displayResult = isCorrect => {
     $("#result-msg").css("color", colour)
     $("#result-box").show()
 }
-
-
-const displayStreak = () => {
-    $("#cur-streak").text(`Current streak: ${currentStreak}`)
-    $("#high-streak").text(`Highest streak: ${highestStreak}`)
-}
-
 
 const newQuestion = topicNo => {
     const generateFunc = generateFuncs[topicNo]
@@ -38,14 +56,13 @@ const newQuestion = topicNo => {
     $("#topic-name").text(topics[topicNo])
     let params = generateFunc()
     displayFunc(params)
-
+    
     $("#result-box").hide()
-    displayStreak()
-
-    $("#answer-form").submit(e => {
+    
+    $("#answer-form").off("submit").submit(e => {
         e.preventDefault()
         let result = resultFunc()
-        isCorrect = validateFunc(params, result)
+        let isCorrect = validateFunc(params, result)
         if (isCorrect) {
             currentStreak++
         } else {
@@ -53,10 +70,18 @@ const newQuestion = topicNo => {
         }
         displayResult(isCorrect)
         updateStreak(topicNo, currentStreak)       
+        displayStreak()
     })
 }
 
-/* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Individual functions vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
+const changeTopic = topicNo => {
+    currentTopic = topicNo
+    currentStreak = 0
+    let topic = topics[currentTopic]
+    highestStreak = topic in localStorage ? localStorage.getItem(topic) : 0
+    newQuestion(topicNo)
+    displayStreak()
+}
 
 /* Util functions */
 
@@ -123,6 +148,7 @@ const equalArrays = (x, y) => {
     return true
 }
 
+/* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Individual functions vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
 
 /* Simultaneous equations*/
 
@@ -163,7 +189,7 @@ const displaySimultaneous = params => {
         `<span>${eq1} = ${params.e}</span><span>${eq2} = ${params.f}</span>`
     )   
     $("#answer").html(
-        `x = <input type='number' placeholder='Enter value of x' id='simul-x'> &nbsp&nbsp&nbsp.y = <input type='number' placeholder='Enter value of y' id='simul-y'>`
+        `x = <input type='number' id='simul-x'> &nbsp&nbsp&nbspy = <input type='number' id='simul-y'>`
     )
 }
 
@@ -208,10 +234,13 @@ const generateEquationOfLine = () => {
 }
 
 const displayEquationOfLine = params => {
-    let question = `Find the equation of the line connecting (${params.x1}, ${params.y1}) and (${params.x2}, ${params.y2}) in the form ax + by = c`
+    let question = `Find the equation of the line connecting<br>(${params.x1}, ${params.y1}) and (${params.x2}, ${params.y2})<br>in the form ax + by = c`
     $("#question").html(question)
     let ans = 
-    "a=<input type='number' placeholder='Enter value of a' id='equation-a'> b=<input type='number' placeholder='Enter value of b' id='equation-b'> c=<input type='number' placeholder='Enter value of c' id='equation-c'>"
+    `
+    a = <input type='number' id='equation-a'>&nbsp&nbsp
+    b = <input type='number' id='equation-b'>&nbsp&nbsp
+    c = <input type='number' id='equation-c'>`
     $("#answer").html(ans)
 }
 
@@ -257,9 +286,9 @@ const generateQuadratic = () => {
 const displayQuadratic = params => {
     let coeffs = [params.a, params.b, params.c]
     let terms = ["x²", "x"]
-    let eq = generateEquationString(coeffs, terms) + " = 0"
+    let eq = "<span>Solve " + generateEquationString(coeffs, terms) + " = 0</span>"
     $("#question").html(eq)
-    let ans = "x = <input id='quad-x1' type='number' placeholder='Enter value of x'> &nbsp&nbsp&nbspor x = <input id='quad-x2' type='number' placeholder='Enter value of x'>"
+    let ans = "x = <input id='quad-x1' type='number'> &nbsp&nbsp&nbspor x = <input id='quad-x2' type='number'>"
     $("#answer").html(ans)
 }
 
@@ -272,7 +301,7 @@ const resultQuadratic = () => {
     }
 }
 
-const validateQuadratic = (params, answer) => (answer.x1 == params.x1 && answer.x2 == params.x2) || (answer.x2 == params.x1 && answer.x1 == params.x2)
+const validateQuadratic = (params, answer) => (answer.x1 === params.x1 && answer.x2 === params.x2) || (answer.x2 === params.x1 && answer.x1 === params.x2)
 
 /* Sums and products of roots */
 
@@ -300,10 +329,4 @@ const displayFuncs  = [displaySimultaneous, displayEquationOfLine, displayQuadra
 const resultFuncs   = [resultSimultaneous, resultEquationOfLine, resultQuadratic, null]
 const validateFuncs = [validateSimultaneous, validateEquationOfLine, validateQuadratic, null]
 
-let currentTopic = 1
-let currentStreak = 0
-let highestStreak = 0
-
-
-newQuestion(currentTopic)
-
+let currentTopic, currentStreak, highestStreak

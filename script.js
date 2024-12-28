@@ -286,7 +286,7 @@ const generateQuadratic = () => {
 const displayQuadratic = params => {
     let coeffs = [params.a, params.b, params.c]
     let terms = ["x²", "x"]
-    let eq = "<span>Solve " + generateEquationString(coeffs, terms) + " = 0</span>"
+    let eq = "<span>" + generateEquationString(coeffs, terms) + " = 0</span>"
     $("#question").html(eq)
     let ans = "x = <input id='quad-x1' type='number'> &nbsp&nbsp&nbspor x = <input id='quad-x2' type='number'>"
     $("#answer").html(ans)

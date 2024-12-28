@@ -9,21 +9,21 @@
     <link href="style.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <title>Infinite Math Generator</title>
+    <title>Infinite Math Questions</title>
 </head>
 <body>
     <!-- Header -->
     <header class="container-fluid bg-light py-3">
         <div class="row align-items-center">
             <!-- Toggle button for mobile, hidden on medium and up -->
-            <div class="col-6 d-md-none">
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                    <span class="navbar-toggler-icon"></span>
+            <div class="col-1 d-md-none">
+                <button class="btn btn-primary menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="hamburger"></span>
                 </button>
             </div>
             <!-- Title section - centered on small screens, left-aligned on medium and up -->
-            <div class="col-6 col-md-8 text-center text-md-start">
-                <h1 class="mb-0">Infinite Math Questions</h1>
+            <div class="col-10 col-md-8 text-end text-md-start mb-3 mb-md-0">
+                <h1 class="mb-0 ms-0 ms-md-3">Infinite Math Questions</h1>
             </div>
             <!-- Language selection - aligned to the right -->
             <div class="col-12 col-md-4 text-center text-md-end mt-2 mt-md-0">
@@ -38,7 +38,7 @@
     <div class="container-fluid border">
         <div class="row">
             <!-- Sidebar Nav for larger screens -->
-            <nav class="col-12 col-md-2 p-3 bg-light border-end d-none d-md-block" id="navbar">
+            <nav class="col-12 col-md-3 p-3 bg-light border-end d-none d-md-block" id="navbar">
                 <h2 class="h5 text-primary text-center text-md-start px-3 py-2">Topics</h2>
                 <ul class="list-unstyled">
                     <li class="mb-2">
@@ -62,39 +62,39 @@
                 <div class="offcanvas-body">
                     <ul class="list-unstyled">
                         <li class="mb-2">
-                            <a class="link topic-link d-block text-center text-md-start py-2 px-3 rounded" onclick="changeTopic(0)">Simultaneous Equations</a>
+                            <a class="link topic-link d-block text-center text-md-start py-2 px-3 rounded" data-bs-dismiss="offcanvas" onclick="changeTopic(0)">Simultaneous Equations</a>
                         </li>
                         <li class="mb-2">
-                            <a class="link topic-link d-block text-center text-md-start py-2 px-3 rounded" onclick="changeTopic(1)">Equations of lines</a>
+                            <a class="link topic-link d-block text-center text-md-start py-2 px-3 rounded" data-bs-dismiss="offcanvas" onclick="changeTopic(1)">Equations of lines</a>
                         </li>
                         <li class="mb-2">
-                            <a class="link topic-link d-block text-center text-md-start py-2 px-3 rounded" onclick="changeTopic(2)">Quadratics</a>
+                            <a class="link topic-link d-block text-center text-md-start py-2 px-3 rounded" data-bs-dismiss="offcanvas" onclick="changeTopic(2)">Quadratics</a>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <!-- Main Content Area -->
-            <main class="col-12 col-md-6 p-4 mx-auto" id="main-content">
+            <main class="col-12 col-md-8 p-4 mx-auto" id="main-content">
                 <div id="q-box" class="border rounded p-4 shadow">
                     <div id="info" class="row mb-3">
                         <!-- Topic name, and streak stats -->
-                        <div id="topic-name" class="col-12 col-md-6 h3 text-primary"></div>
-                        <div id="cur-streak" class="col-6 col-md-3 h5 text-secondary text-end">Current streak:</div>
-                        <div id="high-streak" class="col-6 col-md-3 h5 text-secondary text-end">Highest streak:</div>
+                        <div id="topic-name" class="col-12 col-md-8 h3 text-primary"></div>
+                        <div id="cur-streak" class="col-6 col-md-2 h5 text-secondary text-end">Current streak:</div>
+                        <div id="high-streak" class="col-6 col-md-2 h5 text-secondary text-end">Highest streak:</div>
                     </div>
-                    <div id="question" class="row text-center mb-4">
+                    <div id="question" class="row text-center mb-0">
                         <!-- Question displayed -->
                     </div>
                     <div id="ans-box" class="row mb-3">
                         <!-- Answer box -->
                         <form id="answer-form" class="w-100 d-flex flex-column align-items-center">
-                            <div id="answer" class="mb-3"></div>
+                            <div id="answer" class="mb-4"></div>
                             <input type="submit" value="Submit" id="submit-btn" class="btn btn-primary">
                         </form>
                     </div>
                     <div id="result-box">
-                        <div id="result-msg" class="mb-3"></div>
+                        <div id="result-msg" class="mb-3 h2 fw-bold"></div>
                         <button id="next-btn" class="btn btn-secondary">Next</button>
                     </div>
                 </div>

@@ -94,6 +94,36 @@ const generateEquationString = (coeffs, terms) => {
     return result
 }
 
+const hcf = (a, b) => {
+    while (b !== 0) {
+        let temp = b
+        b = a % b
+        a = temp;
+    }
+    return Math.abs(a);
+}
+
+const hcfOfArray = arr => {
+    return arr.reduce((acc, num) => hcf(acc, num))
+}
+
+
+const simplify = arr => {
+    let arrHCF = hcfOfArray(arr)
+    return arr.map(num => num / arrHCF)
+}
+
+const equalArrays = (x, y) => {
+    if (x.length !== y.length) {
+        return false
+    }
+    for (let i = 0; i < x.length; i++) {
+        if (x[i] !== y[i]) return false
+    }
+    return true
+}
+
+
 /* Simultaneous equations*/
 
 const generateSimultaneous = () => {
@@ -138,15 +168,15 @@ const displaySimultaneous = params => {
 }
 
 const resultSimultaneous = () => {
-    let x = $("#simul-x").val()
-    let y = $("#simul-y").val()
+    let x = parseInt($("#simul-x").val())
+    let y = parseInt($("#simul-y").val())
     return {
         "x": x,
         "y": y
     }
 }
 
-const validateSimultaneous = (params, answer) => params.x == answer.x && params.y == answer.y
+const validateSimultaneous = (params, answer) => params.x === answer.x && params.y === answer.y
 
 
 /* Equations of lines */
@@ -158,14 +188,14 @@ const generateEquationOfLine = () => {
     let y1 = getRandomInt(-4, 5)
     let c = a * x1 + b * y1
     
-    let x2, y2
-    do {
-        x2 = getRandomInt(-4, 4, true);
-        if (b !== 0 && Number.isInteger((c - a * x2) / b)) {
-            y2 = (c - a * x2) / b;
-        }
-    } while (!Number.isInteger((c - a * x2) / b));
-    
+    let x2 = 1
+    let y2 = (c - a * x2) / b
+
+    while (!Number.isInteger(y2) || x2 === x1) {
+        x2 = (x2 < 0) - x2
+        y2 = (c - a * x2) / b
+    }
+
     return {
         "a": a,
         "b": b,
@@ -180,13 +210,25 @@ const generateEquationOfLine = () => {
 const displayEquationOfLine = params => {
     let question = `Find the equation of the line connecting (${params.x1}, ${params.y1}) and (${params.x2}, ${params.y2}) in the form ax + by = c`
     $("#question").html(question)
+    let ans = 
+    "a=<input type='number' placeholder='Enter value of a' id='equation-a'> b=<input type='number' placeholder='Enter value of b' id='equation-b'> c=<input type='number' placeholder='Enter value of c' id='equation-c'>"
+    $("#answer").html(ans)
 }
 
 const resultEquationOfLine = () => {
-
+    return {
+        "a": parseInt($("#equation-a").val()),
+        "b": parseInt($("#equation-b").val()),
+        "c": parseInt($("#equation-c").val())
+    }
 }
 
-const validateEquationOfLine = (params, answer) => params.m == answer.m && params.c == answer.c
+const validateEquationOfLine = (params, answer) => {
+    let paramsSimpified = simplify([params.a, params.b, params.c])
+    let answerSimplified = simplify([answer.a, answer.b, answer.c])
+    let negateAnswer = answerSimplified.map(x => -x)
+    return equalArrays(paramsSimpified, answerSimplified) || equalArrays(paramsSimpified, negateAnswer)
+}
 
 
 /* Quadratics */

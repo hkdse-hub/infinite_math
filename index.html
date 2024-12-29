@@ -23,13 +23,13 @@
             </div>
             <!-- Title section - centered on small screens, left-aligned on medium and up -->
             <div class="col-10 col-md-8 text-end text-md-start mb-3 mb-md-0">
-                <h1 class="mb-0 ms-0 ms-md-3">Infinite Math Questions</h1>
+                <h1 class="mb-0 ms-0 ms-md-3 mt-0 mt-md-1" id="header">Infinite Math Questions</h1>
             </div>
             <!-- Language selection - aligned to the right -->
             <div class="col-12 col-md-4 text-center text-md-end mt-2 mt-md-0">
-                <a class="link lang-link mx-2" href="#">繁</a>
-                <a class="link lang-link mx-2" href="#">简</a>
-                <a class="link lang-link mx-2" href="#">Eng</a>
+                <a class="link lang-link mx-2" onclick="applyTranslations('hant')">繁</a>
+                <a class="link lang-link mx-2" onclick="applyTranslations('hans')">简</a>
+                <a class="link lang-link mx-2" onclick="applyTranslations('en')">Eng</a>
             </div>
         </div>
     </header>
@@ -39,7 +39,7 @@
         <div class="row">
             <!-- Sidebar Nav for larger screens -->
             <nav class="col-12 col-md-3 p-3 bg-light border-end d-none d-md-block" id="navbar">
-                <h2 class="h5 text-primary text-center text-md-start px-3 py-2">Topics</h2>
+                <h2 class="h5 text-primary text-center text-md-start px-3 py-2" id="topic-header">Topics</h2>
                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <a class="link topic-link d-block text-center text-md-start py-2 px-3 rounded" onclick="changeTopic(0)">Simultaneous Equations</a>
@@ -106,6 +106,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

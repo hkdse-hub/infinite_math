@@ -12,11 +12,11 @@ $(document).ready(function() {
     currentTopic = 0
     currentStreak = 0     
     highestStreak = topics[currentTopic] in localStorage ? localStorage.getItem(topics[currentTopic]) : 0
-
     displayStreak()
 
     /* starting function call */
     newQuestion(currentTopic)
+    applyTranslations(currentLanguage)
 });
 
 /* Streak */
@@ -33,14 +33,16 @@ const updateStreak = (topicNo, curStreak) => {
 }
 
 const displayStreak = () => {
-    $("#cur-streak").text(`Current streak: ${currentStreak}`)
-    $("#high-streak").text(`Highest streak: ${highestStreak}`)
+    let content = translations[currentLanguage]
+    $("#cur-streak").text(`${content.curStreak}: ${currentStreak}`)
+    $("#high-streak").text(`${content.highStreak}: ${highestStreak}`)
 }
 
 /* Questions */
 
 const displayResult = isCorrect => {
-    let word = isCorrect ? "Correct" : "Incorrect"
+    let content = translations[currentLanguage]
+    let word = isCorrect ? content.correct : content.incorrect
     $("#result-msg").text(word)
     let colour = isCorrect ? "green" : "red"
     $("#result-msg").css("color", colour)
@@ -53,7 +55,7 @@ const newQuestion = topicNo => {
     const resultFunc = resultFuncs[topicNo]
     const validateFunc = validateFuncs[topicNo]
     
-    $("#topic-name").text(topics[topicNo])
+    $("#topic-name").text(translations[currentLanguage].topics[topicNo])
     let params = generateFunc()
     displayFunc(params)
     
@@ -234,8 +236,22 @@ const generateEquationOfLine = () => {
 }
 
 const displayEquationOfLine = params => {
-    let question = `Find the equation of the line connecting<br>(${params.x1}, ${params.y1}) and (${params.x2}, ${params.y2})<br>in the form ax + by = c`
+    let qLine1, qLine2, qLine3
+    if (currentLanguage === "en") {
+        qLine1 = "Find the equation of the line connecting"
+        qLine2 = "and"
+        qLine3 = "in the form ax + by = c"
+    } else if (currentLanguage === "hant") {
+        qLine1 = "將以下兩點連接起來的直線方程"
+        qLine2 = "和"
+        qLine3 = "以 ax + by = c 的形式表示"
+    } else if (currentLanguage === "hans") {
+        qLine1 = ""
+    }
+    
+    let question = qLine1 + "<br>" + `(${params.x1}, ${params.y1}) ` + qLine2 +  ` (${params.x2}, ${params.y2})` + "<br>" + qLine3
     $("#question").html(question)
+
     let ans = 
     `
     a = <input type='number' id='equation-a'>&nbsp&nbsp
@@ -323,10 +339,14 @@ const validateSumsAndProductsOfRoots = (params, result) => {
 
 
 /* Global variables */
-const topics = ["Simultaneous Equations", "Equations of lines", "Quadratics", "Sums and products of roots"]
+const NUM_TOPICS = 3
+const topics = ["Simultaneous Equations", "Equations of lines", "Quadratics"]
 const generateFuncs = [generateSimultaneous, generateEquationOfLine, generateQuadratic, null]
 const displayFuncs  = [displaySimultaneous, displayEquationOfLine, displayQuadratic, null]
 const resultFuncs   = [resultSimultaneous, resultEquationOfLine, resultQuadratic, null]
 const validateFuncs = [validateSimultaneous, validateEquationOfLine, validateQuadratic, null]
 
 let currentTopic, currentStreak, highestStreak
+
+/* initial language */
+let currentLanguage = "hant"
